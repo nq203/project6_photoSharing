@@ -18,9 +18,10 @@ router.post("/login", async (request, response) => {
       console.log("ko dung mat khau");
       return response.status(401).send("Invalid username or password");
     }
-    console.log("login");
     // ... rest of the login logic
-
+    request.session.user_id = user._id;
+    request.session.login_name = user.login_name;
+    console.log(request.session.login_name);
     response.status(200).send(user);
   } catch (error) {
     console.error("Login error:", error);
@@ -62,5 +63,16 @@ router.post("/register", async function (request, response) {
     response.status(400).send(JSON.stringify(err));
   }
 });
-
+router.post("/logout", async (request, response) => {
+  if (request.session.login_name && request.session.user_id) {
+    delete request.session["login_name"];
+    delete request.session["user_id"];
+    request.session.destroy(function (err) {
+      response.status(400).send(JSON.stringify(err));
+    });
+    response.status(200).send("Successfully Logout");
+  } else {
+    response.status(400).send("Logout Failed");
+  }
+});
 module.exports = router;

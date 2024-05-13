@@ -1,42 +1,39 @@
-import React from "react";
+import React, { useRef } from "react";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import "./styles.css";
 import axios from "axios";
 import "./styles.css";
-import logoImage from "/home/quan/photo_sharing_mongoDB/frontend/src/images/logo.png";
+import logoImage from "/home/quan/project6_photoSharing/frontend/src/images/logo.png";
 /**
  * Define TopBar, a React component of Project 4.
  */
 function TopBar(props) {
+  const uploadInputRef = useRef(null);
+  const user = props.user;
   const handleUploadButtonClicked = (event) => {
     event.preventDefault();
-
-    if (event.target.files.length > 0) {
+    console.log(user._id);
+    if (uploadInputRef.current && uploadInputRef.current.files.length > 0) {
       const formData = new FormData();
-      formData.append("uploadedphoto", event.target.files[0]);
-
+      formData.append("uploadedphoto", uploadInputRef.current.files[0]);
       axios
-        .post("/photos/new", formData)
+        .post(`http://localhost:8081/api/photo/new/${user._id}`, formData)
         .then((res) => {
           console.log(res);
         })
         .catch((err) => console.error("POST ERR:", err));
     }
   };
+
   const handleLogoutButtonClicked = async () => {
-    try {
-      await axios.post("/admin/logout", {});
-      props.changeStatus(false); // Assuming changeStatus is a function passed as a prop
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
+    props.changeUser(null);
     props.changeStatus(false);
   };
   return (
     <AppBar className="cs142-topbar-appBar" position="absolute">
       <Toolbar>
         <Typography variant="h5" color="inherit">
-          <img src={logoImage} height={50} width={50} />
+          PhotoSharing
         </Typography>
 
         <Typography
@@ -48,14 +45,10 @@ function TopBar(props) {
         {props.userIsLoggedIn ? (
           <>
             <Typography className="login" variant="h5" color="inherit">
-              {`Hi ${props.user.first_name}`}
+              {`Hello ${props.user.first_name}`}
             </Typography>
             <div className="logoutButton">
-              {/* <input
-                type="file"
-                accept="image/*"
-                ref={(ref) => (this.uploadInput = ref)}
-              /> */}
+              <input type="file" accept="image/*" ref={uploadInputRef} />
               <Button variant="contained" onClick={handleUploadButtonClicked}>
                 Add photo
               </Button>

@@ -6,8 +6,17 @@ const UserRouter = require("./routes/UserRouter");
 const PhotoRouter = require("./routes/PhotoRouter");
 const CommentRouter = require("./routes/CommentRouter");
 const LoginRouter = require("./routes/LoginRouter");
+const session = require("express-session");
 dbConnect();
 app.use(cors());
+app.use(
+  session({
+    secret: "your_secret_key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // Set to true for https
+  })
+);
 app.use(express.json());
 app.use("/api/user", UserRouter);
 app.use("/api/photo", PhotoRouter);

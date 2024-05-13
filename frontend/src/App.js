@@ -17,23 +17,23 @@ import fetchModel from "./lib/fetchModelData";
 const App = () => {
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
-  const [userList, setUserList] = useState([]);
+  // const [userList, setUserList] = useState([]);
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    setMessage("");
-    if (userIsLoggedIn) {
-      const fetchData = async () => {
-        try {
-          const data = await fetchModel("/user/list");
-          setUserList(data);
-        } catch (error) {
-          console.error("Error updating user list:", error);
-        }
-      };
-      fetchData();
-    }
-  }, [userIsLoggedIn]);
+  // useEffect(() => {
+  //   setMessage("");
+  //   if (userIsLoggedIn) {
+  //     const fetchData = async () => {
+  //       try {
+  //         const data = await fetchModel("/user/list");
+  //         setUserList(data);
+  //       } catch (error) {
+  //         console.error("Error updating user list:", error);
+  //       }
+  //     };
+  //     fetchData();
+  //   }
+  // }, [userIsLoggedIn]);
 
   const changeStatus = (status) => setUserIsLoggedIn(status);
 
@@ -48,8 +48,8 @@ const App = () => {
             <TopBar
               userIsLoggedIn={userIsLoggedIn}
               changeStatus={changeStatus}
+              changeUser={changeUser}
               user={user}
-              message={message}
             />
           </Grid>
           <div className="cs142-main-topbar-buffer" />
@@ -74,14 +74,7 @@ const App = () => {
                     />
                     <Route
                       path="/photos/:userId"
-                      element={
-                        <UserPhotos
-                          user={user}
-                          message={message}
-                          changeMessage={changeMessage}
-                          userList={userList}
-                        />
-                      }
+                      element={<UserPhotos user={user} />}
                     />
                     <Route path="/users" element={<UserList />} />
                     <Route
@@ -97,6 +90,10 @@ const App = () => {
                   <>
                     <Route
                       path="/users/*"
+                      element={<Navigate to="/login-register" />}
+                    />
+                    <Route
+                      path="/photos/*"
                       element={<Navigate to="/login-register" />}
                     />
                     <Route

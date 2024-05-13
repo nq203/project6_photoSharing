@@ -5,8 +5,8 @@ import bcrypt from "bcryptjs-react";
 const salt = bcrypt.genSaltSync(10);
 const LoginRegister = (props) => {
   const [state, setState] = useState({
-    login_name: "took",
-    password: "weak",
+    login_name: "",
+    password: "",
     login_error: "",
     register_error: "",
     register_login_name: "",
@@ -33,6 +33,7 @@ const LoginRegister = (props) => {
           password: state.password,
         }
       );
+      console.log(response.data);
       props.changeUser(response.data);
       props.changeStatus(true);
     } catch (error) {
