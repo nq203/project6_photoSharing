@@ -6,26 +6,28 @@ router.post("/:photoId", async (request, response) => {
   const photoId = request.params.photoId;
   const user = request.body.user;
   const comment = request.body.comment;
-  console.log(user);
-  // Photo.findOne({ _id: photoId }).then((photo) => {
-  //   if (photo) {
-  //     let newComment = {
-  //       comment: comment,
-  //       date_time: Date.now(),
-  //       user_id: user._id,
-  //     };
-
-  //     if (photo.comments.length) {
-  //       photo.comments = photo.comments.concat([newComment]);
-  //     } else {
-  //       photo.comments = [newComment];
-  //     }
-  //     photo.save();
-  //     response.status(200).send("Comments Updated");
-  //   } else {
-  //     response.status(400).send("Photo not found");
-  //   }
-  // });
+  // console.log("day la user");
+  // console.log(user);
+  try {
+    await Photo.findOne({ _id: photoId }).then((photo) => {
+      if (photo) {
+        let newComment = {
+          comment: comment,
+          date_time: Date.now(),
+          user_id: user._id,
+        };
+        console.log(newComment);
+        photo.comments.push(newComment);
+        photo.save();
+        response.status(200).send("Comments Updated");
+      } else {
+        response.status(400).send("Photo not found");
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    response.status(500).send("Internal Server Error");
+  }
 });
 
 router.get("/:id", async (req, res) => {

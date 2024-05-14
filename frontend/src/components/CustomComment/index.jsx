@@ -30,7 +30,9 @@ function CommentDialog(props) {
       await axios.post(`http://localhost:8081/api/comment/${props.photo_id}`, {
         comment: commentText,
         user: props.user,
-      }); // notify upper level component to re-render UI
+      });
+      // notify upper level component to re-render UI
+      props.onCommentAdded();
     } catch (error) {
       console.log("Comment Sent Failure: ", error);
     }

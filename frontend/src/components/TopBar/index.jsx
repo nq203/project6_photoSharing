@@ -3,7 +3,6 @@ import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import "./styles.css";
 import axios from "axios";
 import "./styles.css";
-import logoImage from "/home/quan/project6_photoSharing/frontend/src/images/logo.png";
 /**
  * Define TopBar, a React component of Project 4.
  */

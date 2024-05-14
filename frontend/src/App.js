@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Grid, Paper } from "@mui/material";
 import {
   BrowserRouter as Router,
@@ -12,7 +12,6 @@ import UserDetail from "./components/UserDetail";
 import UserList from "./components/UserList";
 import UserPhotos from "./components/UserPhotos";
 import LoginRegister from "./components/LoginRegister";
-import fetchModel from "./lib/fetchModelData";
 
 const App = () => {
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);

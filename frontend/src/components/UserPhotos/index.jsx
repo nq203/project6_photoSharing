@@ -8,20 +8,20 @@ function UserPhotos(props) {
   console.log("user photo:" + user);
   const { userId } = useParams();
   const [photos, setPhotos] = useState([]); // State to store the photo list
-
+  const fetchUserPhotos = async () => {
+    try {
+      const data = await fetchModel(`photo/${userId}`);
+      setPhotos(data); // Assuming data is an array of photos
+    } catch (error) {
+      console.error("Error fetching user photos:", error);
+    }
+  };
   useEffect(() => {
-    const fetchUserPhotos = async () => {
-      try {
-        const data = await fetchModel(`photo/${userId}`);
-        setPhotos(data); // Assuming data is an array of photos
-      } catch (error) {
-        console.error("Error fetching user photos:", error);
-      }
-    };
-
     fetchUserPhotos();
   }, [userId]);
-
+  const handleCommentAdded = () => {
+    fetchUserPhotos(); // Refetch photos after comment addition
+  };
   if (photos.length === 0) {
     return <div>No photos found for this user.</div>;
   }
@@ -47,7 +47,11 @@ function UserPhotos(props) {
               <Typography variant="body2">Time: {comment.date_time}</Typography>
             </div>
           ))}
-          <CommentDialog photo_id={photo._id} user={user} />
+          <CommentDialog
+            photo_id={photo._id}
+            user={user}
+            onCommentAdded={handleCommentAdded}
+          />
         </div>
       ))}
     </div>
