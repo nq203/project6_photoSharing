@@ -11,7 +11,7 @@ import {
 import "./styles.css";
 import axios from "axios";
 
-function CommentDialog(props) {
+function CommentCustom(props) {
   console.log("comentDiaLog user : " + props.user);
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
@@ -32,7 +32,7 @@ function CommentDialog(props) {
         user: props.user,
       });
       // notify upper level component to re-render UI
-      props.onCommentAdded();
+      props.addComment();
     } catch (error) {
       console.log("Comment Sent Failure: ", error);
     }
@@ -63,4 +63,4 @@ function CommentDialog(props) {
   );
 }
 
-export default CommentDialog;
+export default CommentCustom;

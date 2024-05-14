@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import fetchModel from "../../lib/fetchModelData";
-import CommentDialog from "../CustomComment";
+import CommentCustom from "../CustomComment";
 function UserPhotos(props) {
   const user = props.user;
   console.log("user photo:" + user);
@@ -19,7 +19,7 @@ function UserPhotos(props) {
   useEffect(() => {
     fetchUserPhotos();
   }, [userId]);
-  const handleCommentAdded = () => {
+  const addComment = () => {
     fetchUserPhotos(); // Refetch photos after comment addition
   };
   if (photos.length === 0) {
@@ -33,8 +33,8 @@ function UserPhotos(props) {
         <div key={photo._id}>
           <img
             src={require("../../../../backend/images/" + photo.file_name)}
-            height={200}
-            width={200}
+            height={300}
+            width={300}
           />
           <Typography variant="body2">Time: {photo.date_time}</Typography>
           <Typography variant="h6">Comments</Typography>
@@ -47,10 +47,10 @@ function UserPhotos(props) {
               <Typography variant="body2">Time: {comment.date_time}</Typography>
             </div>
           ))}
-          <CommentDialog
+          <CommentCustom
             photo_id={photo._id}
             user={user}
-            onCommentAdded={handleCommentAdded}
+            addComment={addComment}
           />
         </div>
       ))}
