@@ -41,7 +41,6 @@ function CommentCustom(props) {
   return (
     <div className="comment-dialog">
       <Chip label="Reply" onClick={handleClickOpen} />
-      {/* onClose: when mouse click outside of the dialog box, then close the dialog */}
       <Dialog open={open} onClose={handleClickClose}>
         <DialogContent>
           <DialogContentText>Add a comment...</DialogContentText>

@@ -17,6 +17,21 @@ router.get("/list", async (request, response) => {
     response.status(500).send("Error retrieving users"); // Send generic error message
   }
 });
+router.get("/name/:userid", (req, res) => {
+  const userid = req.params.userid;
+  User.findOne({ _id: userid })
+    .then((user) => {
+      if (!user) {
+        return res.status(400).send("Not found");
+      }
+
+      return res.status(200).send(user.first_name);
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).send("Internal server error"); // Handle errors appropriately
+    });
+});
 router.get("/:id", async (req, res) => {
   var id = req.params.id;
   // console.log(id);

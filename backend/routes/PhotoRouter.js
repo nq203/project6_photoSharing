@@ -2,6 +2,7 @@ const express = require("express");
 const Photo = require("../db/photoModel");
 const router = express.Router();
 const multer = require("multer");
+const path = require("path");
 const processFormBody = multer({ storage: multer.memoryStorage() }).single(
   "uploadedphoto"
 );
@@ -15,7 +16,7 @@ router.post("/new/:userId", async (request, response) => {
       return;
     }
     var timestamp = new Date().valueOf();
-    var filename = "U" + String(timestamp) + request.file.originalname;
+    var filename = request.file.originalname;
     console.log(filename);
     fs.writeFile("./images/" + filename, request.file.buffer, function (err) {
       if (err) {
@@ -32,7 +33,11 @@ router.post("/new/:userId", async (request, response) => {
     });
   });
 });
-
+router.get("/images/:filename", (req, res) => {
+  const filename = req.params.filename;
+  const imagePath = path.join(__dirname, "../images", filename);
+  res.sendFile(imagePath);
+});
 router.get("/:id", async (req, res) => {
   var id = req.params.id;
   // console.log(id);
@@ -47,7 +52,7 @@ router.get("/:id", async (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).send("Internal server error"); // Handle errors appropriately
+      return res.status(500).send("Internal server error");
     });
 });
 router.get("/", async (req, res) => {
@@ -55,14 +60,13 @@ router.get("/", async (req, res) => {
   try {
     const photo = await Photo.find({});
     if (photo) {
-      res.status(200).json(photo); // Send users data with appropriate status code
+      res.status(200).json(photo);
     } else {
-      res.status(404).send("No users found"); // Send clear message if no users found
+      res.status(404).send("No users found");
     }
   } catch (error) {
-    // Handle errors gracefully
-    console.error(error); // Log the error for debugging
-    res.status(500).send("Error retrieving users"); // Send generic error message
+    console.error(error);
+    res.status(500).send("Error retrieving users");
   }
 });
 module.exports = router;

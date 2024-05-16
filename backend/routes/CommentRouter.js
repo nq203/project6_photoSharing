@@ -15,6 +15,7 @@ router.post("/:photoId", async (request, response) => {
           comment: comment,
           date_time: Date.now(),
           user_id: user._id,
+          user_name: user.first_name,
         };
         console.log(newComment);
         photo.comments.push(newComment);
@@ -44,7 +45,7 @@ router.get("/:id", async (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      return res.status(500).send("Internal server error"); // Handle errors appropriately
+      return res.status(500).send("Internal server error");
     });
 });
 module.exports = router;

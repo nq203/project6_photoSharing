@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcryptjs-react");
-const User = require("../db/userModel"); // Assuming userModel defines the User model
+const User = require("../db/userModel");
 const router = express.Router();
 router.post("/login", async (request, response) => {
   try {
@@ -18,19 +18,17 @@ router.post("/login", async (request, response) => {
       console.log("ko dung mat khau");
       return response.status(401).send("Invalid username or password");
     }
-    // ... rest of the login logic
-    request.session.user_id = user._id;
-    request.session.login_name = user.login_name;
-    console.log(request.session.login_name);
+
+    // request.session.user_id = user._id;
+    // request.session.login_name = user.login_name;
+    // console.log(request.session.login_name);
     response.status(200).send(user);
   } catch (error) {
     console.error("Login error:", error);
     response.status(500).send("Internal server error");
   }
 });
-// router.get("/admin", async (req, res) => {
-//   res.send({ message: "admin page" });
-// });
+
 router.post("/register", async function (request, response) {
   try {
     if (request.body.login_name) {
@@ -49,7 +47,6 @@ router.post("/register", async function (request, response) {
             occupation: request.body.occupation,
             login_name: request.body.login_name,
             password: request.body.password,
-            latest_act: "Registered as a user",
           });
           response.status(200).send("Create user success");
         } else {

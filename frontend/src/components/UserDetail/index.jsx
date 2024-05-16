@@ -3,6 +3,7 @@ import { Typography } from "@mui/material";
 import "./styles.css";
 import { useParams, Link } from "react-router-dom";
 import fetchModel from "../../lib/fetchModelData";
+
 /**
  * Define UserDetail, a React component of Project 4.
  */
@@ -22,6 +23,7 @@ function UserDetail() {
 
     fetchUserDetail();
   }, [userId]);
+
   if (user)
     return (
       <div>
@@ -41,13 +43,11 @@ function UserDetail() {
           <Typography className="user-info">
             Occupation: {user.occupation}
           </Typography>
-          <Link
-            component={Link}
-            to={`/photos/${userId}`}
-            className="view-photos-link"
-          >
-            View Photos
-          </Link>
+          <button>
+            <Link to={`/photos/${userId}`} className="view-photos-link">
+              View Photos
+            </Link>
+          </button>
         </div>
       </div>
     );

@@ -16,27 +16,7 @@ import LoginRegister from "./components/LoginRegister";
 const App = () => {
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
-  // const [userList, setUserList] = useState([]);
-  const [message, setMessage] = useState("");
-
-  // useEffect(() => {
-  //   setMessage("");
-  //   if (userIsLoggedIn) {
-  //     const fetchData = async () => {
-  //       try {
-  //         const data = await fetchModel("/user/list");
-  //         setUserList(data);
-  //       } catch (error) {
-  //         console.error("Error updating user list:", error);
-  //       }
-  //     };
-  //     fetchData();
-  //   }
-  // }, [userIsLoggedIn]);
-
   const changeStatus = (status) => setUserIsLoggedIn(status);
-
-  const changeMessage = (message) => setMessage(message);
 
   const changeUser = (user) => setUser(user);
   return (
@@ -62,15 +42,7 @@ const App = () => {
               <Routes>
                 {userIsLoggedIn ? (
                   <>
-                    <Route
-                      path="/users/:userId"
-                      element={
-                        <UserDetail
-                          message={message}
-                          changeMessage={changeMessage}
-                        />
-                      }
-                    />
+                    <Route path="/users/:userId" element={<UserDetail />} />
                     <Route
                       path="/photos/:userId"
                       element={<UserPhotos user={user} />}
